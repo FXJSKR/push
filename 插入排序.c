@@ -1,73 +1,45 @@
+#define _CRT_SECURE_NO_WARNINGS 1
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-#define size 10
-void charu(int* a,int j,int i) {
-    int temp = a[j];
-    for (int q = 1;q <= i;q++) {
-        a[q - 1] = a[q];
-    }
-    a[i] = temp;
+//²åÈëÅÅÐòËã·¨
+//int *a ´«µÝÒ»¸öÊý×é ; nÎªÊý×é´óÐ¡
+void cr(int *a,unsigned n) {
+	short flag = -1;
+	for (int i = 1;i < n;i++) {
+		for (int j = i-1;j>=0;j--) {
+			if (a[i] < a[j])
+				flag = j;
+		}
+		if (flag != -1) {
+			int t = a[i];
+			for (int j = i;j - 1 >= flag;j--) {
+				a[j] = a[j - 1];
+			}
+			a[flag] = t;
+		}
+			flag = -1;
+	}
 }
-void paixu(int* a, int n) {
-    int temp,isswap,j,i;
-    for (j = 0;j <= n - 3;j++) {
-        flag:
-        isswap = 0;
-        //ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-        f:
-        for (i = j + 1;i+1 <=n-1;i++)
-        {
-            if (a[j] > a[i] && a[j] < a[i + 1]) {
-                printf("ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ö®Ç°ï¿½ï¿½\n");
-                temp = a[j];
-                for (int q = j;q+1 <= i;q++) {
-                    a[q] = a[q+1];
-                }
-                a[j] = temp;
-                for (int m = 0;m < n;m++) {
-                    printf("%d ", a[m]);
-                }printf("\n");
-                goto f;
-            }
-        }
-        //Ã»ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ü·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½
-        if (a[j] >= a[n - 1]) {
-            printf("ï¿½ï¿½ï¿½ï¿½ï¿½\n");
-            temp = a[j];
-            for (int q = 1;q <= n - 1;q++) {
-                a[q - 1] = a[q];
-            }
-            a[n-1] = temp;
-            goto flag;
-            printf("ï¿½ï¿½ï¿½j%d\n",j);
-            for (int m = 0;m < size;m++) {
-                printf("%d ", a[m]);
-            }
-            printf("\n");
-
-        }
-    }
+//´òÓ¡Êý×é
+void printarr(int *a, unsigned n) {
+	for (int i = 0;i < n;i++) {
+		printf("%d ", a[i]);
+	}
 }
-    
-
-    int main(){
-        srand(time(NULL));
-        int a[size];
-        printf("ï¿½ï¿½Ê¼\n");
-  
-        for (int i = 0;i < size;i++) {
-            a[i] = rand() % size;
-            printf("%d ", a[i]);
-        }printf("\n");
-        paixu(a, 3);
-        printf("\n");
-        printf("mainï¿½ï¿½ï¿½\n");
-        for (int i = 0;i < size;i++) {
-            printf("%d ", a[i]);
-        }
-    }
-    //1 3 2 0
-    //
-    //
-    //
+//Éú³ÉÒ»¸öÊý×é£¬£¬Ã¿¸öÔªËØ¶¼±»¸³Ò»¸ö100ÒÔÄÚËæ»úÊý
+int* make(unsigned n) {
+	int* a = (int*)malloc(n * sizeof(int));
+	srand(time(NULL));
+	for (int i = 0;i < n;i++) {
+		a[i] = rand()%100;
+	}
+	return a;
+}
+int main() {
+	unsigned n=18;//nÖµ¿ÉËæÒâÐÞ¸Ä
+	int* a = make(n);//Éú³É´óÐ¡ÎªnµÄÊý×é²¢¸³Ëæ»úÖµ
+	cr(a,n);//²åÈëÅÅÐòº¯Êý
+	printarr(a,n);//´òÓ¡
+	free(a);
+}
